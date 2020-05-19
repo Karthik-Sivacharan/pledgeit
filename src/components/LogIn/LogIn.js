@@ -1,6 +1,36 @@
 import React from "react";
+import {auth} from "../../api/auth";
+import $ from "jquery";
 
 class Login extends React.Component {
+
+  constructor(props){
+    super(props);
+    if (localStorage.getItem("token") != undefined && localStorage.getItem("token") != "") {
+      window.location.href = "/";
+    }
+  }
+  
+  submitForm = async () => {
+    var username = $("#username").val();
+    var password = $("#password").val();
+    var token = "";
+    try{
+      var response = await auth.login(username, password);
+      if(!response.success){
+        throw response.msg;
+      }
+      username = response.username;
+      token = "Bearer " + response.token;
+      this.props.handleAuthenticationSuccess(username, token);
+      window.location.href = "/";
+    }
+    catch(err){
+      console.log("handle error:",err);
+    }
+  }
+
+
   render() {
     return (
       <div
@@ -16,21 +46,22 @@ class Login extends React.Component {
             <div className="mb-4 uk-text-center">
               <h3 className="mb-0"> Log in to your Account</h3>
             </div>
-            <form
+            <div
               className="uk-child-width-1-1 uk-grid-small uk-grid uk-grid-stack"
               uk-grid="true"
             >
               <div className="uk-first-column">
                 <div className="uk-form-group">
-                  <label className="uk-form-label"> Email</label>
+                  <label className="uk-form-label"> Username</label>
                   <div className="uk-position-relative w-100">
                     <span className="uk-form-icon">
                       <i className="icon-feather-user" />
                     </span>
                     <input
                       className="uk-input"
-                      type="email"
-                      placeholder="name@example.com"
+                      type="text"
+                      placeholder="Username"
+                      id="username"
                     />
                   </div>
                 </div>
@@ -46,6 +77,7 @@ class Login extends React.Component {
                       className="uk-input"
                       type="password"
                       placeholder="********"
+                      id="password"
                     />
                   </div>
                 </div>
@@ -55,12 +87,13 @@ class Login extends React.Component {
                   type="submit"
                   defaultValue="Get Started"
                   className="btn btn-default  btn-block"
+                  onClick={this.submitForm}
                 />
                 <div className="uk-text-center">
                   <p className="my-2">Log in with :</p>
                 </div>
               </div>
-            </form>
+            </div>
             <div
               className="uk-text-center"
               style={{
@@ -72,6 +105,7 @@ class Login extends React.Component {
                   type="button"
                   className="btn btn-facebook btn-icon-label uk-first-column mb-2"
                   style={{margin: '2px'}} 
+                  href="https://www.facebook.com/v6.0/dialog/oauth?client_id=183440006075851&display=popup&response_type=token&redirect_uri=http://localhost:5000/api/fbauth"
                 >
                   <span className="btn-inner--icon">
                     <i className="icon-brand-facebook-f" />

@@ -8,20 +8,46 @@ import SignUp from "./SignUp/SignUp.js"
 import Login from "./LogIn/LogIn.js"
 
 
-function App() {
-    return (
-        <Router >
-            
-                <Switch>
-                    <Route path="/" exact component={Main} />
-                    <Route path="/create_profile" component={ProfileCreate} />
-                    <Route path="/signup" component={SignUp} />
-                    <Route path="/login" component={Login} />
-                </Switch>
+class App extends React.Component {
+    
+    constructor(props){
+        super(props);
+        this.state = {
+          isLoggedin: false,
+          username: "",
+          token: ""
+        };
+        if (localStorage.getItem("token") != undefined && localStorage.getItem("token") != "") {
+          this.setState({
+            isLoggedin: true,
+            token: localStorage.getItem("token")
+          })
+        }
+    }
+    
+    handleAuthenticationSuccess = (username, token) => {
+        localStorage.setItem("token", token);
+        localStorage.setItem("username", username);
+        this.setState({
+            isLoggedin: true,
+            username: username,
+            token: token
+        })
+    }
 
-        </Router>
-
-    );
+    render(){
+        return (
+            <Router >
+                    <Switch>
+                        <Route path="/" exact component={Main} />
+                        <Route path="/create_profile" component={ProfileCreate} />
+                        <Route path="/signup" component={() => (<SignUp handleAuthenticationSuccess={this.handleAuthenticationSuccess} isLoggedin={this.state.isLoggedin}/>)} />
+                        <Route path="/login" component={() => (<Login handleAuthenticationSuccess={this.handleAuthenticationSuccess} isLoggedin={this.state.isLoggedin}/>)} />
+                    </Switch>
+    
+            </Router>
+        );
+    }
 }
 
 export default App;
