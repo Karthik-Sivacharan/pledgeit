@@ -9,6 +9,26 @@ class Login extends React.Component {
 
   constructor(props){
     super(props);
+  }
+
+  componentWillMount = () => {
+    var getToken = function() {
+      var match = document.cookie.match(new RegExp('(^| )' + "token"+ '=([^;]+)'));
+      if (match) return match[2];
+      else return false;
+    }
+    var getUsername = function() {
+      var match = document.cookie.match(new RegExp('(^| )' + "username" + '=([^;]+)'));
+      if (match) return match[2];
+      else return false;
+    }
+    var token = getToken();
+    var username = getUsername();
+    if(token && username){
+      token = "Bearer " + token;
+      this.props.handleAuthenticationSuccess(username, token);
+      window.location.href = "/";
+    }
     if (localStorage.getItem("token") != undefined && localStorage.getItem("token") != "") {
       window.location.href = "/";
     }
@@ -94,6 +114,9 @@ class Login extends React.Component {
     console.log(response);
   }
 
+  twSignin = () =>{
+    window.location.assign("http://localhost:5000/api/twsignin");
+  }
 
   render() {
     return (
@@ -198,6 +221,7 @@ class Login extends React.Component {
                   type="button"
                   className="btn btn-twitter btn-icon-label mb-2"
                   style={{margin: '2px'}} 
+                  onClick={this.twSignin} 
                 >
                   <span className="btn-inner--icon">
                     <i className="icon-brand-twitter" />

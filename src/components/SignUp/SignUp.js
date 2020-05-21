@@ -2,7 +2,7 @@ import React from "react";
 import {auth} from "../../api/auth";
 import $ from 'jquery';
 import { config } from "../../config/config";
-// import FacebookLogin from 'react-facebook-login';
+import TwitterLogin from 'react-twitter-auth';
 import FacebookLogin from 'react-facebook-login';
 import { GoogleLogin } from 'react-google-login';
 
@@ -10,18 +10,35 @@ class Signup extends React.Component {
 
   constructor(props){
     super(props);
+  }
+  
+  componentWillMount = () => {
+    var getToken = function() {
+      var match = document.cookie.match(new RegExp('(^| )' + "token"+ '=([^;]+)'));
+      if (match) return match[2];
+      else return false;
+    }
+    var getUsername = function() {
+      var match = document.cookie.match(new RegExp('(^| )' + "username" + '=([^;]+)'));
+      if (match) return match[2];
+      else return false;
+    }
+    var token = getToken();
+    var username = getUsername();
+    if(token && username){
+      token = "Bearer " + token;
+      this.props.handleAuthenticationSuccess(username, token);
+      window.location.href = "/";
+    }
     if (localStorage.getItem("token") != undefined && localStorage.getItem("token") != "") {
       window.location.href = "/";
     }
   }
-
   submitForm = async () => {
     var username = $("#username").val();
     var password = $("#password").val();
     var re_password = $("#retype-password").val();
     var email = $("#email").val();
-    console.log(password);
-    console.log(re_password);
     if(password !== re_password){
       alert("Password did not match");
     }
@@ -96,11 +113,15 @@ class Signup extends React.Component {
         }
   };
 
+
   failure = async(response) => {
     console.log(response);
   }
-
-
+ 
+  twSignin = () =>{
+    window.location.assign("/twsignin");
+  }
+  
   render() {
     return (
       <div
@@ -219,32 +240,34 @@ class Signup extends React.Component {
                     clientId= {config.googleappId}
                     render={renderProps => (
                       <button
-                      type="button"
-                      className="btn btn-google-plus btn-icon-label mb-2"
-                      style={{margin: '2px'}} 
-                      onClick={renderProps.onClick}
-                    >
+                        type="button"
+                        className="btn btn-google-plus btn-icon-label mb-2"
+                        style={{margin: '2px'}} 
+                        onClick={renderProps.onClick}
+                      >
                       <span className="btn-inner--icon">
-                        <i className="icon-brand-google" />
+                      <i className="icon-brand-google" />
                       </span>
                       <span className="btn-inner--text">Google </span>
-                    </button>
+                      </button>
                     )}
                     onSuccess={this.googleResponse}
                     onFailure={this.failure}
                     cookiePolicy={'single_host_origin'}
                   />
-                
+
                 <button
                   type="button"
                   className="btn btn-twitter btn-icon-label mb-2"
                   style={{margin: '2px'}} 
+                  onClick={this.twSignin} 
                 >
-                  <span className="btn-inner--icon">
-                    <i className="icon-brand-twitter" />
-                  </span>
-                  <span className="btn-inner--text">Twitter</span>
+                <span className="btn-inner--icon">
+                  <i className="icon-brand-twitter" />
+                </span>
+                <span className="btn-inner--text">Twitter</span>
                 </button>
+
                 <div className="uk-width-expand@s uk-first-column mt-3">
                   <p>
                     Already have an account? <a href="#">Login</a>
