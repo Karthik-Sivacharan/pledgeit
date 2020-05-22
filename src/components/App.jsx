@@ -4,8 +4,8 @@ import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
 
 import ProfileCreate from "./Profile/ProfileCreate.js"
 import UserType from "./Profile/UserType/UserType.js"
+import HomeRoute from "./homeRoute"
 import UserHandle from "./Profile/UserHandle/UserHandle.js"
-import Main from "./CreatorHomepage/Main.jsx"
 import SignUp from "./SignUp/SignUp.js"
 import Login from "./LogIn/LogIn.js"
 
@@ -17,31 +17,48 @@ class App extends React.Component {
         this.state = {
           isLoggedin: false,
           username: "",
-          token: ""
+          token: "",
+          profileStatus: ""
         };
-        if (localStorage.getItem("token") != undefined && localStorage.getItem("token") != "") {
-          this.setState({
-            isLoggedin: true,
-            token: localStorage.getItem("token")
-          })
-        }
     }
+
+    componentDidMount = () => {
+        if (localStorage.getItem("token") != undefined && localStorage.getItem("token") != "") {
+            this.setState({
+              isLoggedin: true,
+              token: localStorage.getItem("token"),
+              profileStatus: localStorage.getItem("profileStatus"),
+              username: localStorage.getItem("username")
+            })
+        }
+        else{
+            this.setState({
+                isLoggedin: false,
+                token: "",
+                profileStatus: "",
+                username: ""
+            })
+        }
+    }  
+
     
-    handleAuthenticationSuccess = (username, token) => {
+    async handleAuthenticationSuccess (username, token)  {
         localStorage.setItem("token", token);
         localStorage.setItem("username", username);
+    }
+
+    setProfileStatus (profileStatus) {
+        localStorage.setItem("profileStatus", profileStatus);
         this.setState({
-            isLoggedin: true,
-            username: username,
-            token: token
-        })
+            profileStatus: profileStatus
+        });
     }
 
     render(){
         return (
             <Router >
                     <Switch>
-                        <Route path="/" exact component={Main} />
+                        <Route path="/" exact component={() => (<HomeRoute token={this.state.token} username={this.state.username} isLoggedin={this.state.isLoggedin} setProfileStatus={this.setProfileStatus}/>)} />
                         <Route path="/create_profile" component={ProfileCreate} />
                         <Route path="/user_type" component={UserType} />
                         <Route path="/user_handle" component={UserHandle} />

@@ -1,9 +1,10 @@
 import axios from 'axios'
+import { config } from '../config/config';
 
-const base_url = "http://localhost:5000/api/auth/"
+const base_url = config.APIurl + "/auth"
 
 const login = async (username, password) => {
-    const endPoint = 'login';
+    const endPoint = '/login';
     try{
         var res = await axios.post(base_url + endPoint, {
             username: username,
@@ -19,7 +20,7 @@ const login = async (username, password) => {
     }
 }
 const register = async (username, email, password) => {
-    const endPoint = "register";
+    const endPoint = "/register";
     try{
         var res = await axios.post(base_url + endPoint, {
             username: username,
