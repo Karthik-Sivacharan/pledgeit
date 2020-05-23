@@ -1,13 +1,90 @@
 import React from "react";
+import { config } from '../../../config/config';
+import $ from "jquery";
+import axios from "axios";
 
 class UserHandle extends React.Component {
 
-  state = {
-    handlename: "handlename",
+  constructor(props){
+    super(props);
+    this.state = {
+      validHandle: false,
+      handleName: "",
+      token: localStorage.getItem("token")
+    }
   }
 
-  NameChangeHandler = (event) => {
-    this.setState({handlename: event.target.value});
+  setHandleName = async () => {
+    var handleName = this.state.handleName;
+    var validHandle = this.state.validHandle;
+    if(validHandle){
+       try{
+        var url = config.APIurl + "/profile/setHandle/";
+        var res = await axios.post(url,{
+          handleId: handleName
+        },{
+          headers:{
+              Authorization: this.state.token,
+              'Content-Type': 'application/json'
+        }});
+        if(res.data.success){
+          console.log("Successfully Set handle name")
+        }
+        else{
+          console.log("Invalid Handle Name",res);
+        }
+       }
+       catch(err){
+         console.log("error:", err);
+       }
+    }
+    else{
+      console.log("error: Invalid Handle Name")
+    }
+  }
+
+  NameChangeHandler = async (event) => {
+    var handleName = event.target.value;
+    document.getElementById("handleTag").innerHTML = "pledge.com/" + handleName;
+    var validHandle = false;
+    if(handleName){
+      try{
+          var url = config.APIurl + "/profile/findHandle/" + handleName;
+          var res = await axios.get(url,{ 
+          headers:{
+              Authorization: this.state.token,
+              'Content-Type': 'application/json'
+          }
+          });
+          if(!res.data.success){
+              throw res.data.msg;
+          }
+          if(res.data.handleExists){
+            validHandle = false;            
+          }
+          else{
+            validHandle = true;
+          }
+          if(validHandle != this.state.validHandle || handleName != this.state.handleName){
+             this.setState({
+               handleName: handleName,
+               validHandle : validHandle
+             });
+          }
+      }
+      catch(err){
+        console.log("Error:", err);
+      }
+    }
+    else{
+     if(this.state.validHandle){
+      this.setState({
+        handleName: "",
+        validHandle : false
+      });
+     }
+    }
+
   }
 
 
@@ -25,9 +102,9 @@ class UserHandle extends React.Component {
           <div className="uk-card-default p-5 rounded">
             <div className="mb-4 uk-text-center">
               <h3 className="mb-0"> Choose your Handle Name </h3>
-              <p className="my-2">pledge.com/{this.state.handlename}</p>
+              <p className="my-2" id="handleTag">pledge.com/</p>
             </div>
-            <form
+            <div
               className="uk-child-width-1-1 uk-grid-small uk-grid uk-grid-stack"
               uk-grid="true"
             >
@@ -46,7 +123,8 @@ class UserHandle extends React.Component {
                 <p
                     className="my-2"
                     style={{
-                      color: "#28a745"
+                      color: "#28a745",
+                      display: this.state.validHandle  && this.state.handleName !="" ? "block" : "none" 
                     }}
                   >
                     Chosen name is available!
@@ -54,19 +132,22 @@ class UserHandle extends React.Component {
                   <p
                     className="my-2"
                     style={{
-                      color: "#FF6347"
+                      color: "#FF6347",
+                      display: this.state.validHandle || this.state.handleName == "" ? "none" : "block"
                     }}
                   >
                     Name already exists! Pick another one.
                   </p>
-                  <input
+                  <button
                     type="submit"
                     defaultValue="Proceed to build your page"
                     className="btn btn-default  btn-block"
-                  />
+                    disabled={!this.state.validHandle}
+                    onClick={this.setHandleName}
+                  >submit</button>
                 </div>
               </div>
-            </form>
+            </div>
           </div>
         </div>
       </div>
