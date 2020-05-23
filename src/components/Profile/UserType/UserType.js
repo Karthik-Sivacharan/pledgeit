@@ -1,6 +1,43 @@
 import React from "react";
-
+import {config} from "../../../config/config";
+import axios from "axios";
 class UserType extends React.Component {
+
+  constructor(props){
+    super(props);
+    this.state = {
+      token: localStorage.getItem("token")
+    }
+  }
+
+  setUserType = async(userType) => {
+    if(userType){
+      try{
+       var url = config.APIurl + "/profile/setUserType";
+       var res = await axios.post(url,{
+         userType: userType
+       },{
+         headers:{
+             Authorization: this.state.token,
+             'Content-Type': 'application/json'
+       }});
+       if(res.data.success){
+         console.log("Successfully Set user type")
+       }
+       else{
+         console.log("Invalid user type", res.data.err);
+       }
+      }
+      catch(err){
+        console.log("error:", err);
+      }
+   }
+   else{
+     console.log("error: Invalid Handle Name")
+   }
+  }
+
+
   render() {
     return (
       <div
@@ -32,6 +69,7 @@ class UserType extends React.Component {
                   style={{
                     minHeight: "100%"
                   }}
+                  onClick={() => {this.setUserType(1)}}
                 >
                   <h6
                     style={{
@@ -54,6 +92,7 @@ class UserType extends React.Component {
                   style={{
                     minHeight: "100%"
                   }}
+                  onClick={() => {this.setUserType(2)}}
                 >
                   <h6
                     style={{

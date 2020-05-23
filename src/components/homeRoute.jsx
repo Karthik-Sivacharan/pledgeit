@@ -18,7 +18,26 @@ export default class homeRoute extends Component {
 
 
 
+
     componentDidMount = () => {
+
+        var renderStates = () => {
+            var profileStatus = localStorage.getItem("profileStatus");
+            var profileState = localStorage.getItem("profileState");
+            var newState= {};
+            if(profileStatus != undefined || profileStatus != "" || profileStatus == null){
+                newState.profileStatus = profileStatus;
+                newState.isLoading = false;
+            }
+            if(profileState != undefined || profileState != "" || profileState == null){
+                newState.profileState = profileState;
+                newState.isLoading = false;
+            }
+            if(newState.profileState != this.state.profileState || newState.profileStatus != this.state.profileStatus){
+              this.setState(newState);
+            }
+        }
+
         try{
             $.ajax({
                 url: config.APIurl + '/profile/profileStatus',
@@ -30,6 +49,7 @@ export default class homeRoute extends Component {
                 success: async function (res) {
                   if(res.success){
                     localStorage.setItem("profileStatus", res.profile.profileStatus);
+                    renderStates();
                   }
                 },
                 error: function (err) {
@@ -46,6 +66,7 @@ export default class homeRoute extends Component {
                 success: async function (res) {
                   if(res.success){
                     localStorage.setItem("profileState", res.profileState);
+                    renderStates();
                   }
                 },
                 error: function (err) {
@@ -56,21 +77,7 @@ export default class homeRoute extends Component {
         catch(err){
             console.log("error:",err);
         }
-        var profileStatus = localStorage.getItem("profileStatus");
-        var profileState = localStorage.getItem("profileState");
-        var newState= {};
-        if(profileStatus != undefined || profileStatus != ""){
-            newState.profileStatus = profileStatus;
-            newState.isLoading = false;
-        }
-        if(profileState != undefined || profileState != ""){
-            newState.profileState = profileState;
-            newState.isLoading = false;
-        }
-        if(newState.profileState != this.state.profileState || newState.profileStatus != this.state.profileStatus){
-          this.setState(newState);
-        }
-    }
+    }    
 
     render() {
        var isLoading = this.state.isLoading;

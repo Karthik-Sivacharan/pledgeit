@@ -45,6 +45,9 @@ class App extends React.Component {
     async handleAuthenticationSuccess (username, token)  {
         localStorage.setItem("token", token);
         localStorage.setItem("username", username);
+        this.setState({
+            isLoggedin: true
+        });
     }
 
     setProfileStatus (profileStatus) {
