@@ -1,6 +1,8 @@
 import React from "react";
 import "./VideoPlayer.css";
 
+import DonateCard from "./DonateCard.jsx"
+
 class Container extends React.Component {
   render() {
     return (
@@ -8,8 +10,19 @@ class Container extends React.Component {
         <div className="uk-grid-large mt-4 uk-grid uk-grid-stack" uk-grid="true">
           <div className="uk-width-2-3@m uk-first-column">
             <ul id="course-intro-tab" className="uk-switcher mt-4">
-              {}
-              <li className="course-description-content uk-active">
+
+              <li className="course-description-content">
+
+                <div uk-slideshow="animation: slide">
+                        <div className="uk-position-relative uk-visible-toggle uk-light" tabIndex={-1} uk-slideshow="true">
+                          <ul className="uk-slideshow-items">
+                            <li> <img src="images/avatar-1.jpg" alt="" uk-cover="true" /> </li>
+                            <li> <iframe width="100%" height="100%" src="https://www.youtube.com/embed/KH1V6CHO1Jk" frameBorder={0} allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowFullScreen={true}/> </li>
+                            <li> <img src="images/avatar-3.jpg" alt="" uk-cover="true" /> </li>
+                          </ul> <a className="uk-position-center-left uk-position-small uk-hidden-hover" href="#" uk-slidenav-previous="true" uk-slideshow-item="previous" /> <a className="uk-position-center-right uk-position-small uk-hidden-hover" href="#" uk-slidenav-next="true" uk-slideshow-item="next" />
+                        </div>
+                </div>
+
                 <h4> Description </h4>
 
                 <p>
@@ -18,11 +31,11 @@ class Container extends React.Component {
                   aliquam erat volutpat.consectetuer adipiscing elit, sed diam nonummy nibh euismod
                   tincidunt ut laoreet dolore magna.
                 </p>
-                
-                  <div className="center videowrapper">
-                    <iframe title="video" className ="ql-video" frameBorder={0} allowFullScreen={true} src="https://www.youtube.com/embed/uT15kycq-3I?showinfo=0"  />
-                  </div>
-                 
+
+                {/* <div className="center videowrapper">
+                  <iframe title="video" className="ql-video" frameBorder={0} allowFullScreen={true} src="https://www.youtube.com/embed/uT15kycq-3I?showinfo=0" />
+                </div> */}
+
                 <p>
                   consectetuer adipiscing elit, sed diam nonummy nibh euismod
                   tincidunt ut laoreet dolore magna aliquam erat volutpat. Ut
@@ -553,160 +566,12 @@ class Container extends React.Component {
               </li>
             </ul>
           </div>
+
+
           <div className="uk-width-1-3@m uk-grid-margin uk-first-column">
-            <div
-              className="course-card-trailer uk-sticky"
-              uk-sticky="top: 10 ;offset:105 ; media: @m ; bottom:true"
-            >
-              <div className="course-thumbnail">
-                <img src="images/1.png" alt="true" />
-                <a
-                  className="play-button-trigger show"
-                  href="#trailer-modal"
-                  uk-toggle="true"
-                >
-                  {" "}
-                </a>
-              </div>
-              {}
-              <div id="trailer-modal" uk-modal="true" className="uk-modal">
-                <div className="uk-modal-dialog">
-                  <button
-                    className="uk-modal-close-default mt-2  mr-1 uk-icon uk-close"
-                    type="button"
-                    uk-close="true"
-                  >
-                    <svg
-                      width={14}
-                      height={14}
-                      viewBox="0 0 14 14"
-                      xmlns="http://www.w3.org/2000/svg"
-                      data-svg="close-icon"
-                    >
-                      <line
-                        fill="none"
-                        stroke="#000"
-                        strokeWidth="1.1"
-                        x1={1}
-                        y1={1}
-                        x2={13}
-                        y2={13}
-                      />
-                      <line
-                        fill="none"
-                        stroke="#000"
-                        strokeWidth="1.1"
-                        x1={13}
-                        y1={1}
-                        x2={1}
-                        y2={13}
-                      />
-                    </svg>
-                  </button>
-                  <div className="uk-modal-header">
-                    <h4> Trailer video </h4>
-                  </div>
-                  <div className="video-responsive">
-                    <iframe
-                      src="nOCXXHGMezU.html"
-                      className="uk-padding-remove uk-responsive-width"
-                      uk-video="automute: true"
-                      frameBorder={0}
-                      allowFullScreen
-                      uk-responsive="true"
-                    />
-                  </div>
-                  <div className="uk-modal-body">
-                    <h3>Build Responsive Websites </h3>
-                    <p>
-                      Duis aute irure dolor in reprehenderit in voluptate velit
-                      esse cillum dolore eu fugiat nulla pariatur. Excepteur
-                      sint occaecat cupidatat non proident, sunt in culpa qui
-                      officia deserunt mollit anim id est laborum.
-                    </p>
-                  </div>
-                </div>
-              </div>
-              <div className="p-3">
-                <p className="my-3 text-center">
-                  <span className="uk-h1"> $12.99 </span>
-                  <s className="uk-h4 text-muted"> $19.99 </s>
-                  <s className="uk-h6 ml-1 text-muted"> $32.99 </s>
-                </p>
-                <p> ! Hour Left This price</p>
-                <div
-                  className="uk-child-width-1-2 uk-grid-small mb-4 uk-grid uk-grid-stack"
-                  uk-grid="true"
-                >
-                  <div className="uk-first-column">
-                    <a
-                      href="course-resume.html"
-                      className="uk-width-1-1 btn btn-default transition-3d-hover"
-                    >
-                      <i className="uil-play" /> Start{" "}
-                    </a>
-                  </div>
-                  <div className="uk-grid-margin uk-first-column">
-                    <a
-                      href="course-resume.html"
-                      className="btn btn-danger uk-width-1-1 transition-3d-hover"
-                    >
-                      <i className="uil-heart" /> Add wishlist{" "}
-                    </a>
-                  </div>
-                </div>
-                <p className="uk-text-bold"> This Course Incluce </p>
-                <div
-                  className="uk-child-width-1-2 uk-grid-small uk-grid uk-grid-stack"
-                  uk-grid="true"
-                >
-                  <div className="uk-first-column">
-                    <span>
-                      <i className="uil-youtube-alt" /> 28 hours video
-                    </span>
-                  </div>
-                  <div className="uk-grid-margin uk-first-column">
-                    <span>
-                      {" "}
-                      <i className="uil-award" /> Certificate{" "}
-                    </span>
-                  </div>
-                  <div className="uk-grid-margin uk-first-column">
-                    <span>
-                      {" "}
-                      <i className="uil-file-alt" /> 12 Article{" "}
-                    </span>
-                  </div>
-                  <div className="uk-grid-margin uk-first-column">
-                    <span>
-                      {" "}
-                      <i className="uil-video" /> Watch Offline{" "}
-                    </span>
-                  </div>
-                  <div className="uk-grid-margin uk-first-column">
-                    <span>
-                      {" "}
-                      <i className="uil-award" /> Certificate{" "}
-                    </span>
-                  </div>
-                  <div className="uk-grid-margin uk-first-column">
-                    <span>
-                      {" "}
-                      <i className="uil-clock-five" /> Lifetime access{" "}
-                    </span>
-                  </div>
-                </div>
-              </div>
-            </div>
-            <div
-              className="uk-sticky-placeholder"
-              hidden
-              style={{
-                height: "735px",
-                margin: "0px"
-              }}
-            />
+            <DonateCard />
           </div>
+
         </div>
       </div>
     );

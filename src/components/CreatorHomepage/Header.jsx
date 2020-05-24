@@ -6,17 +6,9 @@ class Header extends React.Component {
       <header className="header header-horizontal">
         <div className="container">
           <nav uk-navbar="true" className="uk-navbar">
-            {}
+
             <div className="uk-navbar-left">
-              {}
-              <span className="mmenu-trigger">
-                <button className="hamburger hamburger--collapse" type="button">
-                  <span className="hamburger-box">
-                    <span className="hamburger-inner" />
-                  </span>
-                </button>
-              </span>
-              {}
+
               <a href="dashboard.html" className="logo">
                 <img src="fonts/logo-dark.svg" alt="true" />
                 <span> Courseplus</span>

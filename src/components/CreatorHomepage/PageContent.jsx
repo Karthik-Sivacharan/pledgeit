@@ -15,7 +15,7 @@ class PageContent extends React.Component {
                   <ul uk-switcher="connect: #course-intro-tab ;animation: uk-animation-slide-right-medium, uk-animation-slide-left-medium">
                     <li className="uk-active">
                       <a href="#" aria-expanded="false">
-                        Overview
+                        About
                       </a>
                     </li>
                     <li>
