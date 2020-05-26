@@ -15,6 +15,7 @@ class ProfileCreate extends React.Component {
       hashTag: "",
       handleId: "",
       userURL: "",
+      story: "",
       token: localStorage.getItem("token")
     }
   }
@@ -36,7 +37,8 @@ class ProfileCreate extends React.Component {
           workCategory: profile.workCategory,
           hashTag: profile.hashTag,
           handleId: profile.handleId,
-          userURL: profile.userURL
+          userURL: profile.userURL,
+          story: profile.story
         }
         this.changeState(newState);
       }
@@ -69,6 +71,7 @@ class ProfileCreate extends React.Component {
     var profile = {...this.state};
     delete profile["token"];
     delete profile["handleId"];
+    console.log("senmding", profile)
     if(profile){
        try{
         var res = await axios.post(url, profile, {
@@ -103,6 +106,7 @@ class ProfileCreate extends React.Component {
               workCategory = {this.state.workCategory}
               hashTag = {this.state.hashTag}
               userURL = {this.state.userURL}
+              story = {this.state.story}
               changeState = {this.changeState} 
           />
         </div>

@@ -1,38 +1,30 @@
 import React from 'react';
 import ReactQuill from 'react-quill';
 import './Quill.css';
-// import '../CreatorHomepage/VideoPlayer.css';
-// import 'react-quill/dist/quill.snow.css';
 
-
-/* 
- * Simple editor component that takes placeholder text as a prop 
- */
 class Editor extends React.Component {
     constructor (props) {
       super(props)
-      this.state = { editorHtml: '', theme: 'snow' }
-      this.handleChange = this.handleChange.bind(this)
     }
     
-    handleChange (html) {
-        this.setState({ editorHtml: html }, function() {
-            console.log(this.state.editorHtml);
-        });
+    handleChange = (html) => {
+       var newState = {
+         story: html
+       }
+       this.props.changeState(newState);
     }
-    
-    
+        
     render () {
       return (
         <div className="quill container">
           <ReactQuill 
-            theme={this.state.theme}
-            onChange={this.handleChange}
-            value={this.state.editorHtml}
-            modules={Editor.modules}
-            formats={Editor.formats}
-            bounds={'.app'}
-            placeholder={this.props.placeholder}
+            theme = "snow"
+            onChange = {this.handleChange}
+            value = {this.props.story}
+            modules = {Editor.modules}
+            formats = {Editor.formats}
+            bounds = {'.app'}
+            placeholder = "Fill your story here..."
            />
          </div>
        )

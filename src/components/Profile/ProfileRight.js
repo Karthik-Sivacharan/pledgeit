@@ -5,9 +5,6 @@ import $ from "jquery";
 class ProfileRight extends React.Component {
   constructor(props){
     super(props);
-    this.state = {
-      load: 1
-    }
   }
 
   setNewStates = () => {
@@ -109,7 +106,10 @@ class ProfileRight extends React.Component {
 
           </div>
         </div>
-        <Editor/>
+        <Editor
+          story = {this.props.story} 
+          changeState = {this.props.changeState}
+        />
       </div>
       </div>
     );
