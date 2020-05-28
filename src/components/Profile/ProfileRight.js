@@ -2,10 +2,15 @@ import React from "react";
 import Editor from "../Editor/Quill.jsx";
 import ImageUploading from "react-images-uploading";
 import $ from "jquery";
+import {config} from "../../config/config";
+import axios from "axios";
 
 class ProfileRight extends React.Component {
   constructor(props){
     super(props);
+    this.state = {
+      token: localStorage.getItem("token")
+    }
   }
 
   setNewStates = () => {
@@ -22,7 +27,52 @@ class ProfileRight extends React.Component {
     this.props.changeState(newState);
   }
 
+  deletePics = async (picId) => {
+    if(picId){
+      try{
+       var url = config.APIurl + "/profile/pics/delete";
+       var res = await axios.post(url, {
+         picId: picId
+       }, {
+         headers:{
+             Authorization: this.state.token,
+             'Content-Type': 'application/json'
+       }});
+       if(res.data.success){
+         console.log("Successfully deleted the picture");
+         var filtered =[];
+         this.props.savedPics.forEach(element => {
+           if(element != picId.pic){
+             filtered.push(element);
+           }  
+         });
+         this.props.changeState({
+           savedPics: filtered
+         })
+       }
+       else{
+         console.log("Invalid Details",res);
+       }
+      }
+      catch(err){
+        console.log("error:", err);
+      }
+   }
+   else{
+     console.log("error: Invalid Profile Details")
+   }
+  }
+
+  renderSavedPic = () => {
+    let picDiv = "";
+    this.props.savedPics.forEach(pic => {
+      picDiv += ""
+    });
+    return picDiv;
+  }
+
   componentWillReceiveProps = () => {
+    console.log(this.props.pics);
       var userURL = document.getElementById("userURL").value; 
       var workOn = document.getElementById("workOn").value; 
       var workCategory = document.getElementById("workCategory").value; 
@@ -41,6 +91,12 @@ class ProfileRight extends React.Component {
   }
 
   render() {
+    const items = []
+    this.props.savedPics.forEach(pic => {
+       items.push(<img src={pic} />);
+       items.push(<button onClick={() => {this.deletePics({pic})}}></button>);   
+    });
+
     return (
       <div className="uk-width-expand@m uk-grid-margin uk-first-column">
          <div className="uk-card-default rounded">
@@ -94,8 +150,13 @@ class ProfileRight extends React.Component {
         <div className="uk-flex uk-flex-between uk-flex-middle py-3 px-4">
           <h5 className="mb-0"> What's your story?</h5>
         </div>
+        <div id = "uploaded_pics">
+           {/* Loads pictures Load here */}       
+           { items.map(item => {
+             return item;
+           })}
+        </div>
         <div className="uk-flex py-2 px-4">
-
           <div className="uk-flex uk-flex-middle px-4" uk-margin="true" style={{margin: "0 auto"}}>
                  <ImageUploading
                    onChange={this.picChange}

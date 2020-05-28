@@ -17,8 +17,42 @@ class ProfileCreate extends React.Component {
       userURL: "",
       story: "",
       pics: [],
+      savedPics: [],
       token: localStorage.getItem("token")
     }
+  }
+
+  renderAgain = async() => {
+    console.log("Rendering again")
+    try{
+      var url = config.APIurl + "/profile/selfDetails/" ;
+      var res = await axios.get(url,{ 
+      headers:{
+          Authorization: this.state.token,
+          'Content-Type': 'application/json'
+      }
+      });
+      if(res.data.success){
+        var profile = res.data.profile;
+        var newState = {
+          workOn: profile.workOn,
+          workCategory: profile.workCategory,
+          hashTag: profile.hashTag,
+          handleId: profile.handleId,
+          userURL: profile.userURL,
+          story: profile.story,
+          savedPics: profile.pics,
+          pics: []
+        }
+        this.changeState(newState);
+      }
+      else{
+        console.log("Invalid user Credentails", res.data.err);
+      }
+     }
+     catch(err){
+       console.log("error:", err);
+     }
   }
 
   componentDidMount = async() => {
@@ -40,7 +74,7 @@ class ProfileCreate extends React.Component {
           handleId: profile.handleId,
           userURL: profile.userURL,
           story: profile.story,
-          pics: profile.pics
+          savedPics: profile.pics
         }
         this.changeState(newState);
       }
@@ -84,6 +118,7 @@ class ProfileCreate extends React.Component {
         }});
         if(res.data.success){
           console.log("Successfully Update your profile")
+          this.renderAgain();
         }
         else{
           console.log("Invalid Details",res);
@@ -110,6 +145,8 @@ class ProfileCreate extends React.Component {
               hashTag = {this.state.hashTag}
               userURL = {this.state.userURL}
               story = {this.state.story}
+              pics = {this.state.pics}
+              savedPics= {this.state.savedPics}
               changeState = {this.changeState} 
           />
         </div>
