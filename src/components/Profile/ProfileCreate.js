@@ -16,6 +16,7 @@ class ProfileCreate extends React.Component {
       handleId: "",
       userURL: "",
       story: "",
+      pics: [],
       token: localStorage.getItem("token")
     }
   }
@@ -38,7 +39,8 @@ class ProfileCreate extends React.Component {
           hashTag: profile.hashTag,
           handleId: profile.handleId,
           userURL: profile.userURL,
-          story: profile.story
+          story: profile.story,
+          pics: profile.pics
         }
         this.changeState(newState);
       }
@@ -53,6 +55,7 @@ class ProfileCreate extends React.Component {
 
   changeState = (newState) => {
     this.setState(newState);
+    console.log(newState)
     this.forceUpdate();
   }
 

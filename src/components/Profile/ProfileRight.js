@@ -1,5 +1,6 @@
 import React from "react";
-import Editor from "../Editor/Quill.jsx"
+import Editor from "../Editor/Quill.jsx";
+import ImageUploading from "react-images-uploading";
 import $ from "jquery";
 
 class ProfileRight extends React.Component {
@@ -31,6 +32,13 @@ class ProfileRight extends React.Component {
       document.getElementById("workCategory").value = workCategory != "" ? workCategory : this.props.workCategory;
       document.getElementById("hashTag").value = hashTag !="" ? hashTag : this.props.hashTag;
   } 
+
+  picChange = (picList) => {
+    var newState = {
+       pics: picList
+    };
+    this.props.changeState(newState);
+  }
 
   render() {
     return (
@@ -89,13 +97,32 @@ class ProfileRight extends React.Component {
         <div className="uk-flex py-2 px-4">
 
           <div className="uk-flex uk-flex-middle px-4" uk-margin="true" style={{margin: "0 auto"}}>
-          
-              <button type="button" className="btn btn-icon-label uk-margin-small-top uk-first-column mr-1 ml-1">
-                <span className="btn-inner--icon">
-                  <i className="icon-feather-image" />
-                </span>
-                <span className="btn-inner--text">Upload Image</span>
-              </button>
+                 <ImageUploading
+                   onChange={this.picChange}
+                   maxNumber={5}
+                   multiple
+                   maxFileSize={5 * 1024 * 1024}
+                   acceptType={["jpg", "gif", "png", "jpeg"]}
+                 >
+                   {({ imageList, onImageUpload, onImageRemoveAll }) => (
+                     // write your building UI
+                     <div>
+                       <button type="button" onClick={onImageUpload} className="btn btn-icon-label uk-margin-small-top uk-first-column mr-1 ml-1">
+                         <span className="btn-inner--icon">
+                           <i className="icon-feather-image" />
+                         </span>
+                         <span className="btn-inner--text">Upload Image</span>
+                       </button> 
+                       {imageList.map((image) => (
+                         <div key={image.key}>
+                           <img src={image.dataURL} />
+                           <button onClick={image.onUpdate}>Update</button>
+                           <button onClick={image.onRemove}>Remove</button>
+                         </div>
+                       ))}
+                     </div>
+                   )}
+      </ImageUploading>
 
               <button type="button" className="btn btn-icon-label uk-margin-small-top uk-first-column mr-1 ml-1">
                 <span className="btn-inner--icon">
