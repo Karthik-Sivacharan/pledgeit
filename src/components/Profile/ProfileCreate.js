@@ -19,6 +19,9 @@ class ProfileCreate extends React.Component {
       pics: [],
       savedPics: [],
       videoURL: "",
+      color: "",
+      profilePic: "",
+      savedprofilePic: "",
       token: localStorage.getItem("token")
     }
   }
@@ -44,7 +47,10 @@ class ProfileCreate extends React.Component {
           userURL: profile.userURL,
           story: profile.story,
           savedPics: profile.pics,
-          videoURL: profile.videoURL
+          videoURL: profile.videoURL,
+          color: profile.color,
+          savedprofilePic: profile.savedprofilePic,
+          profilePic: ""
         }
         this.changeState(newState);
       }
@@ -59,7 +65,7 @@ class ProfileCreate extends React.Component {
 
   changeState = (newState) => {
     this.setState(newState);
-    console.log(newState)
+    console.log(this.state)
     this.forceUpdate();
   }
 
@@ -78,7 +84,7 @@ class ProfileCreate extends React.Component {
     var profile = {...this.state};
     delete profile["token"];
     delete profile["handleId"];
-    console.log("senmding", profile)
+    console.log("sending", profile)
     if(profile){
        try{
         var res = await axios.post(url, profile, {
@@ -108,7 +114,12 @@ class ProfileCreate extends React.Component {
       <div className="page-content-inner">
         <h2>Setup your page</h2>
         <div uk-grid="true" className="uk-grid uk-grid-stack">
-          <ProfileLeft></ProfileLeft>
+          <ProfileLeft
+              color = {this.state.color}
+              savedprofilePic= {this.state.savedprofilePic}
+              profilePic = {this.state.profilePic}
+              changeState = {this.changeState}
+          />
           <ProfileRight
               workOn = {this.state.workOn}
               workCategory = {this.state.workCategory}

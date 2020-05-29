@@ -131,11 +131,12 @@ class ProfileRight extends React.Component {
           </div>
           <div className="uk-grid-margin uk-first-column">
             <h5 className="uk-text-bold mb-2"> Choose your work category? </h5>
-            <select className="uk-select" id="workCategory" onChange={this.setNewStates}>
+            <select className="uk-select" id="workCategory" value={this.props.workCategory} onChange={this.setNewStates}>
               {" "}
-              <option>Heath Worker</option> <option>Social Activist</option>{" "}
-              <option>Environmentalist</option>
-              <option>Other</option>
+              <option value="Health Worker">Heath Worker</option> 
+              <option value="Social Activist">Social Activist</option>{" "}
+              <option value="Environmentalist">Environmentalist</option>
+              <option value="Other">Other</option>
             </select>
           </div>
           <div className="uk-grid-margin uk-first-column">
