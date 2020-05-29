@@ -18,6 +18,7 @@ class ProfileCreate extends React.Component {
       story: "",
       pics: [],
       savedPics: [],
+      videoURL: "",
       token: localStorage.getItem("token")
     }
   }
@@ -42,7 +43,8 @@ class ProfileCreate extends React.Component {
           handleId: profile.handleId,
           userURL: profile.userURL,
           story: profile.story,
-          savedPics: profile.pics
+          savedPics: profile.pics,
+          videoURL: profile.videoURL
         }
         this.changeState(newState);
       }
@@ -115,6 +117,7 @@ class ProfileCreate extends React.Component {
               story = {this.state.story}
               pics = {this.state.pics}
               savedPics= {this.state.savedPics}
+              videoURL = {this.state.videoURL}
               changeState = {this.changeState} 
           />
         </div>

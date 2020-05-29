@@ -18,11 +18,13 @@ class ProfileRight extends React.Component {
     var workCategory = $("#workCategory").val();
     var hashTag = $("#hashTag").val();
     var userURL = $("#userURL").val();
+    var videoURL = $("#videoURL").val();
     var newState = {
       workOn: workOn,
       workCategory: workCategory,
       hashTag: hashTag,
-      userURL: userURL
+      userURL: userURL,
+      videoURL: videoURL
     }
     this.props.changeState(newState);
   }
@@ -71,11 +73,20 @@ class ProfileRight extends React.Component {
     return picDiv;
   }
 
+  renderVideoURL = () => {
+    $("#videoURL").css("visibility", "visible");
+  }
+
+  componentDidMount = () => {
+    $("#videoURL").css("visibility", "hidden");
+  }
+
   componentWillReceiveProps = () => {
       var userURL = document.getElementById("userURL").value; 
       var workOn = document.getElementById("workOn").value; 
       var workCategory = document.getElementById("workCategory").value; 
       var hashTag = document.getElementById("hashTag").value;
+      var videoURL = document.getElementById("videoURL").value;
       document.getElementById("userURL").value = userURL !="" ? userURL : this.props.userURL;
       document.getElementById("workOn").value = workOn != "" ? workOn : this.props.workOn;
       document.getElementById("workCategory").value = workCategory != "" ? workCategory : this.props.workCategory;
@@ -184,14 +195,16 @@ class ProfileRight extends React.Component {
                    )}
       </ImageUploading>
 
-              <button type="button" className="btn btn-icon-label uk-margin-small-top uk-first-column mr-1 ml-1">
+              <button type="button" onClick={this.renderVideoURL} className="btn btn-icon-label uk-margin-small-top uk-first-column mr-1 ml-1">
                 <span className="btn-inner--icon">
                   <i className="icon-feather-video" />
                 </span>
                 <span className="btn-inner--text">Upload Video</span>
               </button>
-
           </div>
+        </div>
+        <div>
+        <input type="text" id="videoURL" onChange={this.setNewStates}></input>
         </div>
         <Editor
           story = {this.props.story} 
