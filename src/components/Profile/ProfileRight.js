@@ -72,7 +72,6 @@ class ProfileRight extends React.Component {
   }
 
   componentWillReceiveProps = () => {
-    console.log(this.props.pics);
       var userURL = document.getElementById("userURL").value; 
       var workOn = document.getElementById("workOn").value; 
       var workCategory = document.getElementById("workCategory").value; 
