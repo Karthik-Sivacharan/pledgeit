@@ -38,6 +38,7 @@ class ProfileCreate extends React.Component {
       }
       });
       if(res.data.success){
+        console.log(res.data)
         var profile = res.data.profile;
         var newState = {
           workOn: profile.workOn,
@@ -55,6 +56,7 @@ class ProfileCreate extends React.Component {
         this.changeState(newState);
       }
       else{
+        console.log(res.data)
         console.log("Invalid user Credentails", res.data.err);
       }
      }
@@ -118,6 +120,7 @@ class ProfileCreate extends React.Component {
               color = {this.state.color}
               savedprofilePic= {this.state.savedprofilePic}
               profilePic = {this.state.profilePic}
+              handleId = {this.state.handleId}
               changeState = {this.changeState}
           />
           <ProfileRight

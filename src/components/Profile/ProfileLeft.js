@@ -2,19 +2,46 @@ import React from "react";
 import Avatar from 'react-avatar';
 
 class ProfileLeft extends React.Component {
-  updateProfileLeft = () => {
-    var profilePic = document.getElementById("profilePic").value;
-    var color = document.querySelector('input[name="radio2"]:checked').value;
-    var newState = {
-      color: color,
-      profilePic: profilePic
+
+
+  updatePic = async() => {
+     try{
+      var profilePic = document.getElementById("profilePic");
+      const reader = new FileReader();
+      var fReader = new FileReader();
+      fReader.readAsDataURL(profilePic.files[0]);
+      fReader.onloadend = (event) => {
+          profilePic = event.target.result;
+          var newState = {
+            profilePic: profilePic
+          }
+          this.props.changeState(newState);
+      }
+     }
+     catch(err){
+       console.log(err);
+     }
+  }
+
+  updateProfileLeft = async() => {
+    try{
+          var color = document.querySelector('input[name="radio2"]:checked').value;
+          var newState = {
+            color: color
+          }
+          console.log("setting", newState);
+          this.props.changeState(newState);
     }
-    console.log("setting", newState);
-    this.props.changeState(newState);
+    catch(err){
+      console.log(err);
+    }
   }
 
   componentWillReceiveProps = () => {
-    var profilePic = document.getElementById("profilePic").href;
+    if(document.getElementById("profilePic").value == ""){
+      // this.props.profilePic has the url of uploaded profilePic;
+      // render it whereever needed
+    }
     var color; 
     if(document.querySelector('input[name="radio2"]:checked'))
       color = document.querySelector('input[name="radio2"]:checked').value;
@@ -24,31 +51,36 @@ class ProfileLeft extends React.Component {
       color = this.props.color;
     }
     color =  color.split("#")[1];
-    document.getElementById("profilePic").href = profilePic !="" ? profilePic : this.props.profilePic;
-    console.log(color)
     if(color != "" && color != undefined && document.getElementById( color))
       document.getElementById(color).checked = true;
+    if(this.props.handleId != ""){
+         document.getElementById("handleId").innerHTML = "pledge.com/" + this.props.handleId;
+    }
+    else{
+      document.getElementById("handleId").innerHTML = "pledge.com/";
+    }
   }
 
 
   render() {
+    var username = localStorage.getItem("username");
     return (
       <div className="uk-width-2-5@m uk-first-column">
         <div className="uk-card-default rounded text-center p-4">
         <div className="uk-position-relative my-4">
           <div className="user-profile-photo  m-auto">
             {/* <img src="images/home-profile.jpg" alt="true" /> */}
-            <Avatar name="Elie Daniels" size="150" textSizeRatio={1.75} textMarginRatio={0.2} round="100px" />
+            <Avatar name={username} size="150" textSizeRatio={1.75} textMarginRatio={0.2} round="100px" />
           </div>
-          <h4 className="mb-2 mt-3"> Elie Daniels </h4>
+          <h4 className="mb-2 mt-3"> {username} </h4>
           <div className="uk-position-center" style={{marginTop: "15px"}}>
             <div uk-form-custom="true" className="uk-form-custom">
-              <input type="file" id="profilePic" accept="image/x-png,image/gif,image/jpeg"  onChange={this.updateProfileLeft}/>
+              <input type="file" id="profilePic" accept="image/x-png,image/gif,image/jpeg"  onChange={this.updatePic}/>
               <span className="uk-link icon-feather-camera icon-semi-medium text-white">
               </span>
             </div>
           </div>
-          <p className="m-0"> pledge.com/elie-daniels </p>
+          <p className="m-0" id="handleId"></p>
         </div>
       </div>
 
