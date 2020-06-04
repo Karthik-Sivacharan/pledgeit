@@ -66,6 +66,9 @@ class ProfileCreate extends React.Component {
   }
 
   changeState = (newState) => {
+    if(newState.profilePic != "" && newState.profilePic != undefined){
+      newState.savedprofilePic = newState.profilePic;
+    }
     this.setState(newState);
     console.log(this.state)
     this.forceUpdate();

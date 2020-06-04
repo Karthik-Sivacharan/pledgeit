@@ -23,6 +23,7 @@ class ProfileLeft extends React.Component {
      }
   }
 
+
   updateProfileLeft = async() => {
     try{
           var color = document.querySelector('input[name="radio2"]:checked').value;
@@ -38,10 +39,6 @@ class ProfileLeft extends React.Component {
   }
 
   componentWillReceiveProps = () => {
-    if(document.getElementById("profilePic").value == ""){
-      // this.props.profilePic has the url of uploaded profilePic;
-      // render it whereever needed
-    }
     var color; 
     if(document.querySelector('input[name="radio2"]:checked'))
       color = document.querySelector('input[name="radio2"]:checked').value;
@@ -59,6 +56,7 @@ class ProfileLeft extends React.Component {
     else{
       document.getElementById("handleId").innerHTML = "pledge.com/";
     }
+    this.forceUpdate();
   }
 
 
@@ -70,7 +68,7 @@ class ProfileLeft extends React.Component {
         <div className="uk-position-relative my-4">
           <div className="user-profile-photo  m-auto">
             {/* <img src="images/home-profile.jpg" alt="true" /> */}
-            <Avatar name={username} size="150" textSizeRatio={1.75} textMarginRatio={0.2} round="100px" />
+            <Avatar name={username} size="150" textSizeRatio={1.75} textMarginRatio={0.2} src={this.props.savedprofilePic} round="100px"/>
           </div>
           <h4 className="mb-2 mt-3"> {username} </h4>
           <div className="uk-position-center" style={{marginTop: "15px"}}>
