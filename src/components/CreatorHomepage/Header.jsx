@@ -1,6 +1,11 @@
 import React from "react";
 
 class Header extends React.Component {
+
+  componentWillReceiveProps = () => {
+    this.forceUpdate();
+  }
+
   render() {
     return (
       <header className="header header-horizontal">
@@ -781,7 +786,7 @@ class Header extends React.Component {
                               <li className="notifications-not-read">
                                 <a href="#">
                                   <span className="notification-avatar">
-                                    <img src="images/avatar-2.jpg" alt="true" />
+                                    <img src={this.props.profilePic} alt="true" />
                                   </span>
                                   <div className="notification-text notification-msg-text">
                                     <strong>Jonathan Madano</strong>
@@ -907,7 +912,7 @@ class Header extends React.Component {
                   aria-expanded="false"
                 >
                   <img
-                    src="images/avatar-2.jpg"
+                    src={this.props.profilePic}
                     alt="true"
                     className="header-profile-icon"
                   />
@@ -920,10 +925,19 @@ class Header extends React.Component {
                   <a href="profile-1.html">
                     <div className="dropdown-user-details">
                       <div className="dropdown-user-avatar">
-                        <img src="images/avatar-2.jpg" alt="true" />
+                        <img src={this.props.profilePic} alt="true" />
                       </div>
                       <div className="dropdown-user-name">
-                        Richard Ali <span>Students</span>
+                        {localStorage.getItem("username")} 
+                        <span>
+                        {(() => {
+                            switch(localStorage.getItem("profileState")) {
+                              case "1": return "Campaigner";
+                              case "2": return "Donor";
+                              default: return "Not Yet"; 
+                            }
+                        })()}
+                        </span>
                       </div>
                     </div>
                   </a>

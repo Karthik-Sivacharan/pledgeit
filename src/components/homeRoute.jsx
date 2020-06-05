@@ -94,7 +94,7 @@ export default class homeRoute extends Component {
             return(
                 <h1>hello</h1>
             )
-       else if(profileState == 0){
+       else if(profileState != 0){
             return(
                 <Main/>
             )

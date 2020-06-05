@@ -4,7 +4,19 @@ import "./VideoPlayer.css";
 import DonateCard from "./DonateCard.jsx"
 
 class Container extends React.Component {
+
+  componentWillReceiveProps = () => 
+  {
+  if(this.props.profile.story)
+    document.getElementById("story").innerHTML = this.props.profile.story;
+    this.forceUpdate();
+  }
+
   render() {
+    if(this.props.profile){
+     var li = "", pics = this.props.profile.savedPics, video = this.props.profile.videoURL, story = this.props.profile.story;
+    }
+
     return (
       <div className="container">
         <div className="uk-grid-large mt-4 uk-grid uk-grid-stack" uk-grid="true">
@@ -16,20 +28,17 @@ class Container extends React.Component {
                 <div uk-slideshow="animation: slide">
                         <div className="uk-position-relative uk-visible-toggle uk-light" tabIndex={-1} uk-slideshow="true">
                           <ul className="uk-slideshow-items">
-                            <li> <img src="images/avatar-1.jpg" alt="" uk-cover="true" /> </li>
-                            <li> <iframe width="100%" height="100%" src="https://www.youtube.com/embed/KH1V6CHO1Jk" frameBorder={0} allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowFullScreen={true}/> </li>
-                            <li> <img src="images/avatar-3.jpg" alt="" uk-cover="true" /> </li>
+                            {pics.map(function(pic, key){
+                              return <li key={key+"pic"}><img src={pic} alt={key+"pic"} uk-cover="true" /></li>;
+                            })}
+                            {/* { video ? <li> <iframe width="100%" height="100%" src={video} frameBorder={0} allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowFullScreen={true} /> </li>: null } */}
                           </ul> <a className="uk-position-center-left uk-position-small uk-hidden-hover" href="#" uk-slidenav-previous="true" uk-slideshow-item="previous" /> <a className="uk-position-center-right uk-position-small uk-hidden-hover" href="#" uk-slidenav-next="true" uk-slideshow-item="next" />
                         </div>
                 </div>
 
                 <h4> Description </h4>
 
-                <p>
-                  Lorem ipsum dolor sit amet, consectetuer adipiscing elit, sed
-                  diam nonummy nibh euismod tincidunt ut laoreet dolore magna
-                  aliquam erat volutpat.consectetuer adipiscing elit, sed diam nonummy nibh euismod
-                  tincidunt ut laoreet dolore magna.
+                <p id="story">
                 </p>
 
                 {/* <div className="center videowrapper">

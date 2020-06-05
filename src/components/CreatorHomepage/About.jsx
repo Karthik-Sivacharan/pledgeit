@@ -1,6 +1,11 @@
 import React from "react";
 
 class About extends React.Component {
+
+  componentWillReceiveProps= () => {
+    this.forceUpdate();
+  }
+  
   render() {
     return (
       <div className="course-details">
@@ -8,10 +13,10 @@ class About extends React.Component {
 
           <div className="user-details-card">
             <div className="user-details-card-avatar" >
-              <img src="images/avatar-4.jpg" alt="true" />
+              <img src={this.props.profilePic} alt="true" />
             </div>
             <div className="user-details-card-name">
-              <h1> Karthik Sivacharan </h1>
+              <h1> {localStorage.getItem("username")} </h1>
               <p>
                 Master JavaScript with the most complete course! Projects Excellent
                 course. Master JavaScript with the most complete course! Projects Excellent

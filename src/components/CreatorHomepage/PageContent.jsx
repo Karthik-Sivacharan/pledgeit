@@ -3,6 +3,11 @@ import About from "./About";
 import Container from "./Container";
 
 class PageContent extends React.Component {
+
+  componentWillReceiveProps = () => {
+     this.forceUpdate();
+  }
+
   render() {
     return (
       <div className="page-content">
@@ -10,7 +15,9 @@ class PageContent extends React.Component {
           <div className="container p-sm-0">
             <div uk-grid="true" className="uk-grid uk-grid-stack">
               <div className="uk-width-2-3@m uk-first-column">
-                <About></About>
+                <About
+                profilePic = {this.props.profile.savedprofilePic}
+                />
                 <nav className="responsive-tab style-5">
                   <ul uk-switcher="connect: #course-intro-tab ;animation: uk-animation-slide-right-medium, uk-animation-slide-left-medium">
                     <li className="uk-active">
@@ -39,7 +46,9 @@ class PageContent extends React.Component {
             </div>
           </div>
         </div>
-        <Container></Container>
+        <Container
+          profile={this.props.profile}
+        />
       </div>
     );
   }
