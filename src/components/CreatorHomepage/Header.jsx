@@ -6,6 +6,11 @@ class Header extends React.Component {
     this.forceUpdate();
   }
 
+  logOut = () => {
+    localStorage.clear();
+    window.location.href = "/";
+  }
+
   render() {
     return (
       <header className="header header-horizontal">
@@ -786,7 +791,7 @@ class Header extends React.Component {
                               <li className="notifications-not-read">
                                 <a href="#">
                                   <span className="notification-avatar">
-                                    <img src={this.props.profilePic} alt="true" />
+                                    <img src={this.props.profilePic ? this.props.profilePic: "./images/defaultPic.jpeg"} alt="true" />
                                   </span>
                                   <div className="notification-text notification-msg-text">
                                     <strong>Jonathan Madano</strong>
@@ -912,7 +917,7 @@ class Header extends React.Component {
                   aria-expanded="false"
                 >
                   <img
-                    src={this.props.profilePic}
+                    src={this.props.profilePic ? this.props.profilePic : "./images/defaultPic.jpeg"}
                     alt="true"
                     className="header-profile-icon"
                   />
@@ -925,7 +930,7 @@ class Header extends React.Component {
                   <a href="profile-1.html">
                     <div className="dropdown-user-details">
                       <div className="dropdown-user-avatar">
-                        <img src={this.props.profilePic} alt="true" />
+                        <img src={this.props.profilePic ? this.props.profilePic : "./images/defaultPic.jpeg"} alt="true" />
                       </div>
                       <div className="dropdown-user-name">
                         {localStorage.getItem("username")} 
@@ -983,9 +988,9 @@ class Header extends React.Component {
                         <i className="icon-feather-help-circle" /> Help
                       </a>
                     </li>
-                    <li>
-                      <a href="page-login.html">
-                        <i className="icon-feather-log-out" /> Sing Out
+                    <li onClick={this.logOut}>
+                      <a>
+                        <i className="icon-feather-log-out"/> Sign Out
                       </a>
                     </li>
                   </ul>

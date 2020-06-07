@@ -16,7 +16,7 @@ class PageContent extends React.Component {
             <div uk-grid="true" className="uk-grid uk-grid-stack">
               <div className="uk-width-2-3@m uk-first-column">
                 <About
-                profilePic = {this.props.profile.savedprofilePic}
+                profilePic = {this.props.profile.savedprofilePic ? this.props.profilePic : "./images/defaultPic.jpeg"}
                 />
                 <nav className="responsive-tab style-5">
                   <ul uk-switcher="connect: #course-intro-tab ;animation: uk-animation-slide-right-medium, uk-animation-slide-left-medium">

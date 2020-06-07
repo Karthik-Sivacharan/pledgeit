@@ -42,9 +42,11 @@ class App extends React.Component {
     }  
 
     
-    async handleAuthenticationSuccess (username, token)  {
+    handleAuthenticationSuccess =  (username, token) => {
+        const now = new Date()
         localStorage.setItem("token", token);
         localStorage.setItem("username", username);
+        localStorage.setItem("time", now.getTime());
         this.setState({
             isLoggedin: true
         });

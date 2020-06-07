@@ -23,6 +23,8 @@ class UserType extends React.Component {
        }});
        if(res.data.success){
          console.log("Successfully Set user type")
+         localStorage.setItem("profileState", 1);
+         window.location.href = "/";
        }
        else{
          console.log("Invalid user type", res.data.err);

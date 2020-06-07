@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { config } from '../config/config';
-import Main from "./CreatorHomepage/Main.jsx"
+import Main from "./CreatorHomepage/Main.jsx";
+import UserType from "./Profile/UserType/UserType.js";
 import $ from "jquery";
 
 export default class homeRoute extends Component {
@@ -21,21 +22,23 @@ export default class homeRoute extends Component {
 
     componentDidMount = () => {
 
+        var time = localStorage.getItem("time");
+        console.log(time)
+        if(time){
+           var cur = new Date();
+           if(cur - time > 86400000 ){
+               localStorage.clear();
+           }
+        }
         var renderStates = () => {
             var profileStatus = localStorage.getItem("profileStatus");
             var profileState = localStorage.getItem("profileState");
             var newState= {};
-            if(profileStatus != undefined || profileStatus != "" || profileStatus == null){
                 newState.profileStatus = profileStatus;
                 newState.isLoading = false;
-            }
-            if(profileState != undefined || profileState != "" || profileState == null){
                 newState.profileState = profileState;
                 newState.isLoading = false;
-            }
-            if(newState.profileState != this.state.profileState || newState.profileStatus != this.state.profileStatus){
-              this.setState(newState);
-            }
+                this.setState(newState);
         }
 
         try{
@@ -49,8 +52,8 @@ export default class homeRoute extends Component {
                 success: async function (res) {
                   if(res.success){
                     localStorage.setItem("profileStatus", res.profile.profileStatus);
-                    renderStates();
                   }
+                  renderStates();
                 },
                 error: function (err) {
                     console.log(err);
@@ -66,8 +69,8 @@ export default class homeRoute extends Component {
                 success: async function (res) {
                   if(res.success){
                     localStorage.setItem("profileState", res.profileState);
-                    renderStates();
                   }
+                  renderStates();
                 },
                 error: function (err) {
                     console.log(err);
@@ -85,20 +88,27 @@ export default class homeRoute extends Component {
        var username = this.state.username;
        var profileStatus = this.state.profileStatus;
        var profileState = this.state.profileState;
+       console.log(profileState)
        if(isLoading){
            return(
            <div>Loading</div>
            )
         }
-       else if(token == undefined || token == "")
-            return(
-                <h1>hello</h1>
-            )
+       if(token == undefined || token == "" || !token){
+           console.log("changing");
+            window.location.href = "/login";
+       }
+       else if(profileStatus == 0){
+            window.location.href = "/user_handle";
+       }
        else if(profileState != 0){
             return(
-                <Main/>
+                <Main />
             )
        }
+       else if(profileState == 0)
+           window.location.href = "/user_type";
+
        else{
            return(
              <h1>hellobye</h1>

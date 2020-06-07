@@ -29,6 +29,7 @@ class UserHandle extends React.Component {
         }});
         if(res.data.success){
           console.log("Successfully Set handle name")
+          window.location.href = "/";
         }
         else{
           console.log("Invalid Handle Name",res);
